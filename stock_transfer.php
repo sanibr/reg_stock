@@ -298,8 +298,8 @@ $(document).ready(function(){
            }  
       });  
       $(document).on('click', 'li', function(){  
-          //  $('#barcode').val($(this).text());  
-          //  $('#barcodeList').fadeOut();  
+           $('#barcode').val($(this).text());  
+           $('#barcodeList').fadeOut();  
       });  
  });  
 
