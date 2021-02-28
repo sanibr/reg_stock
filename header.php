@@ -21,6 +21,11 @@ include_once("check_login.php");
   <link rel="stylesheet" href="css/app.css" type="text/css" />
  
   <script src="js/ckeditor/ckeditor.js"></script>
+
+<!-- new datepicker https://github.com/fengyuanchen/datepicker -->
+<link rel="stylesheet" href="calendar/datepicker.min.css" />
+  
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />  
   
   <!--[if lt IE 9]>
     <script src="js/ie/html5shiv.js"></script>

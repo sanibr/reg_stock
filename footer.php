@@ -32,11 +32,15 @@
 <!-- fuelux -->
 <script src="js/fuelux/fuelux.js"></script>
 
+<!-- new datepicker https://github.com/fengyuanchen/datepicker -->
+<script src="calendar/datepicker.min.js"></script>
+
 <!-- slider -->
 <script src="js/slider/bootstrap-slider.js"></script>
 <!-- file input -->  
 <script src="js/file-input/bootstrap-filestyle.min.js"></script>
 <!-- combodate -->
 <script src="js/libs/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

@@ -51,7 +51,7 @@ class Crud extends DbConfig
     		$result = $this->connection->query($query);
     		
     		if ($result == false) {
-    			error_log('Error: ' . $query . '<br>' . $this->connection->error);
+    			//error_log('Error: ' . $query . '<br>' . $this->connection->error);
     			return false;
     		} else {
     			return $this->connection->insert_id;
@@ -61,7 +61,7 @@ class Crud extends DbConfig
 	        $result = mssql_query($query, $this->connection);
     		
     		if ($result == false) {
-    			error_log('Error: ' . $query . '<br>' . $this->connection->error);
+    			//error_log('Error: ' . $query . '<br>' . $this->connection->error);
     			return false;
     		} else {
     			return $this->connection->insert_id;
@@ -74,22 +74,18 @@ class Crud extends DbConfig
 	{	
 	    if($_SESSION['db_type'] == "mysql" || !isset($_SESSION['db_type'])){
 	        
-    		$result = $this->connection->query($query);
-    		
+    		$result = $this->connection->query($query);    		
     		return $result->num_rows;
     		
-	   } else if ($_SESSION['db_type'] == "mssql"){
-	       
-	        $result = mssql_query($query, $this->connection);
-	        
+	   } else if ($_SESSION['db_type'] == "mssql"){	       
+	        $result = mssql_query($query, $this->connection);	        
 	        return mssql_num_rows($result);
 	   }
 	}
 	
 	
 	
-	public function escape_string($value)
-	{
+	public function escape_string($value){
 		return $this->connection->real_escape_string($value);
 	}
 	
