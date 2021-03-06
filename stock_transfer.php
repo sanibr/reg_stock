@@ -74,7 +74,7 @@ $crud = new Crud();
 if(isset($_GET['getBarcode'])){
 
   if((int)$_GET['branchcode'] > 0){
-    $_GET['search'] = $crud->escape_string($_GET['search']);
+    $_GET['search'] = isset($_GET['search'])? $crud->escape_string($_GET['search']):'';
     $barcode = $crud->getData("SELECT pd.barcode,pd.Product_Detail_Id,pd.product_id,pd.Product_Code,pd.Product_Detail_Name,pm.Base_Unit_Id,u.Unit_Name,pd.Stock,pd.Retail_Rate 
     FROM product_detail pd 
     LEFT JOIN product_master pm ON pd.product_id=pm.product_id 
@@ -103,7 +103,7 @@ if(isset($_GET['getBarcode'])){
 if(isset($_GET['getProduct'])){
 
   if((int)$_GET['branchcode'] > 0){
-    $_GET['search'] = $crud->escape_string($_GET['search']);
+    $_GET['search'] = isset($_GET['search'])? $crud->escape_string($_GET['search']):'';
     $product = $crud->getData("SELECT pd.barcode,pd.product_id,pd.Product_Detail_Id,pd.Product_Code,pd.Product_Detail_Name,pm.Base_Unit_Id,u.Unit_Name,pd.Stock,pd.Retail_Rate
     FROM product_detail pd LEFT JOIN product_master pm ON pd.product_id=pm.product_id
     LEFT JOIN unit u ON pm.Base_Unit_Id=u.Unit_Id 
@@ -179,11 +179,7 @@ $taxes = $crud->getData("SELECT Tax_Id,Tax_Percentage FROM tax ORDER BY Tax_Perc
   <select name="from_branch" id="from_branch" class="input-sm form-control input-s-sm inline v-middle">
 			<option value="0">From Branch</option>
 				<?php foreach ($branch as $k => $com) {
-					$select_pro='';
-					if (isset($_GET['branch_id'])) {
-						$select_cat = (int) $_GET['branch_id'] == $com['Branch_Id']? 'selected="selected"':"" ;
-					}						
-					echo '<option '.$select_cat.' value="'.$com['Branch_Id'].'">'.$com['Branch_Name'].'</option>';
+					echo '<option value="'.$com['Branch_Id'].'">'.$com['Branch_Name'].'</option>';
 					}
 				?>				
 			</select>
@@ -192,11 +188,7 @@ $taxes = $crud->getData("SELECT Tax_Id,Tax_Percentage FROM tax ORDER BY Tax_Perc
 	<select name="to_branch" id="to_branch" class="input-sm form-control input-s-sm inline v-middle">
 			<option value="0">To Branch</option>
 				<?php foreach ($branch as $k => $com) {
-					$select_pro='';
-					if (isset($_GET['branch_id'])) {
-						$select_cat = (int) $_GET['branch_id'] == $com['Branch_Id']? 'selected="selected"':"" ;
-					}						
-					echo '<option '.$select_cat.' value="'.$com['Branch_Id'].'">'.$com['Branch_Name'].'</option>';
+					echo '<option value="'.$com['Branch_Id'].'">'.$com['Branch_Name'].'</option>';
 					}
 				?>				
 			</select>
@@ -286,8 +278,8 @@ $taxes = $crud->getData("SELECT Tax_Id,Tax_Percentage FROM tax ORDER BY Tax_Perc
 <br>
  <div class="row">
   <div class="col-lg-12">
-  <div class="col-lg-8"> 
-    <div class="col-lg-2">
+  <div class="col-lg-7"> 
+    <div class="col-lg-3">
         <a href="templates/StockTransferTemplate.xlsx" class="">Excel Sample</a>
     </div>    
   </div>

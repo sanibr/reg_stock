@@ -267,11 +267,14 @@ class StockTransfer{
     }
 
     public function ProcessExcelData($data = []){
-
+        
         if(sizeof($data) > 0){
             foreach($data as $key => $val){
-              $prd_code = $val[0];
-              $qty = $val[1];              
+              $prd_code = trim($val[0]);
+              $qty = trim($val[1]);
+              if(strlen($prd_code) == 0 &&  (int) $qty == 0){
+                continue;
+              }      
               $prd_details = $this->getProductDetailByCode($prd_code);             
               if(empty($prd_details)){                
                 continue;
@@ -306,7 +309,7 @@ class StockTransfer{
                     where pd.Branch_Id=".$this->post['from_branch']." and  pd.Product_Code = '".$this->crud->escape_string($code)."' order by pd.Product_Detail_Id desc limit 1";
          
         $data = $this->crud->getData($query);
-        return $data[0];
+        return isset($data[0])? $data[0] : [];
     }
 
     

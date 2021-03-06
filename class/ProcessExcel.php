@@ -1,8 +1,10 @@
 <?php
 
-require "vendor/autoload.php";
+/*require "vendor/autoload.php"; // need php 7.4
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;*/
+
+require './spreadsheet/vendor/autoload.php';  //php 5.6
 
 class ProcessExcel{
 
@@ -66,6 +68,7 @@ class ProcessExcel{
     }
 
     private function setSpreadSheetObj($tmp_path){
+        //$this->spreadsheetObj = \PhpOffice\PhpSpreadsheet\IOFactory::load($tmp_path);
         $this->spreadsheetObj = \PhpOffice\PhpSpreadsheet\IOFactory::load($tmp_path);
     }
 
