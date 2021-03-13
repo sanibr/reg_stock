@@ -35,6 +35,12 @@
 <!-- new datepicker https://github.com/fengyuanchen/datepicker -->
 <script src="calendar/datepicker.min.js"></script>
 
+<script src="js/moment.min.js"></script>
+
+
+<!--  https://github.com/CodeSeven/toastr -->
+<script src="js/toastr/toastr.min.js"></script>
+
 <!-- slider -->
 <script src="js/slider/bootstrap-slider.js"></script>
 <!-- file input -->  

@@ -285,7 +285,7 @@ class Crud extends DbConfig
 	public function format_date($date, $istime = 0)
 	{
 		if(!$istime){
-			return date('Y-m-d', strtotime($date));
+			return (strtotime($date) > 0) ? date('Y-m-d', strtotime($date)) : '';
 		}
 		
 	}
@@ -293,7 +293,7 @@ class Crud extends DbConfig
 	public function disp_date($date, $istime = 0)
 	{
 		if(!$istime){
-			return date('d-m-Y', strtotime($date));
+			return (strtotime($date) > 0) ? date('d-m-Y', strtotime($date)) : '';
 		}
 		
 	}
