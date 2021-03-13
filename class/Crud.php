@@ -114,7 +114,15 @@ class Crud extends DbConfig
 	
 	
 	public function escape_string($value){
+
+		if(isset($_SESSION['db_type']) && $_SESSION['db_type'] == "mssql"){
+			return $this->ms_escape_string($value);
+		}
+		else{
+			return $this->connection->real_escape_string($value);			
 		return $this->connection->real_escape_string($value);
+			return $this->connection->real_escape_string($value);			
+		}
 	}
 	
 	public function getSettings(){
@@ -146,65 +154,6 @@ class Crud extends DbConfig
 			return false;
 		}	
 		
-	}
-
-	public function stock_data()
-	{
-		$column = array('Invoice_Date', 'Invoice_No', 'Total_Gross_Amount', 'Total_Discount_Amount', 'Total_Net_Amount');
-
-        $query = "SELECT * FROM sales_master ";
-
-		$count_all_data = $this->number_of_records($query);
-
-		if(isset($_POST['filter_voucher_no'], $_POST['filter_transaction_date']) && $_POST['filter_voucher_no'] != '' && $_POST['filter_transaction_date'] != '')
-		{
- 			$query .= 'WHERE Invoice_No = "'.$_POST['filter_voucher_no'].'" AND Invoice_Date = "'.$this->format_date($_POST['filter_transaction_date']).'"';
-		}
-
-		if(isset($_POST['order']))
-		{
- 			$query .= 'ORDER BY '.$column[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' ';
-		}
-		else
-		{
- 			$query .= 'ORDER BY Sales_Master_Id DESC ';
-		}
-
-		$query1 = '';
-
-		if($_POST["length"] != -1)
-		{
-		$query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
-		}
-
-		$statement = $this->getData($query);
-		$number_filter_row = $this->number_of_records($query);
-		$result    = $this->getData($query.$query1);
-
-		$data = array();
-		foreach($result as $row)
-		{
-		$sub_array = array();
-		$sub_array[] = $row['Invoice_Date'];
-		$sub_array[] = $row['Invoice_No'];
-		$sub_array[] = $row['Total_Gross_Amount'];
-		$sub_array[] = $row['Total_Discount_Amount'];
-		$sub_array[] = $row['Total_Net_Amount'];
-		$data[] = $sub_array;
-		}
-
-		$output = array(
-			"draw"       =>  intval($_POST["draw"]),
-			"recordsTotal"   =>  $count_all_data,
-			"recordsFiltered"  =>  $number_filter_row,
-			"data"       =>  $data
-		   );
-
-		  
-		   
-		   echo json_encode($output);
-
-
 	}
 	
 	public function dashboard_data()
@@ -340,6 +289,24 @@ class Crud extends DbConfig
 		}
 		
 	}
+
+	private function ms_escape_string($data) {
+        if ( !isset($data) or empty($data) ) return '';
+        if ( is_numeric($data) ) return $data;
+
+        $non_displayables = array(
+            '/%0[0-8bcef]/',            // url encoded 00-08, 11, 12, 14, 15
+            '/%1[0-9a-f]/',             // url encoded 16-31
+            '/[\x00-\x08]/',            // 00-08
+            '/\x0b/',                   // 11
+            '/\x0c/',                   // 12
+            '/[\x0e-\x1f]/'             // 14-31
+        );
+        foreach ( $non_displayables as $regex )
+            $data = preg_replace( $regex, '', $data );
+        $data = str_replace("'", "''", $data );
+        return $data;
+    }
 	
 	
 }
