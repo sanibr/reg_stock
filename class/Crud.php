@@ -114,14 +114,11 @@ class Crud extends DbConfig
 	
 	
 	public function escape_string($value){
-
 		if(isset($_SESSION['db_type']) && $_SESSION['db_type'] == "mssql"){
 			return $this->ms_escape_string($value);
 		}
 		else{
-			return $this->connection->real_escape_string($value);			
-		return $this->connection->real_escape_string($value);
-			return $this->connection->real_escape_string($value);			
+			return $this->connection->real_escape_string($value);		
 		}
 	}
 	
