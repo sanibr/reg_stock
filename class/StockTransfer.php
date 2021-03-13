@@ -140,7 +140,7 @@ class StockTransfer{
 
         
         if($this->post["length"] != -1){
-            $limit = ' LIMIT ' . $this->post['start'] . ', ' . $this->post['length'];
+            $limit = $this->crud->sqlLimit($this->post['length'], $this->post['start']);
         } 
 
         $order = " order by sd.StockTransfer_Detail_Id desc";
@@ -232,7 +232,7 @@ class StockTransfer{
                         where 1=1 {$where}"; 
 
             if($this->post["length"] != -1){
-                $limit = ' LIMIT ' . $this->post['start'] . ', ' . $this->post['length'];
+                $limit = $this->crud->sqlLimit($this->post['length'], $this->post['start']);
             }
     
             $order = " order by sm.StockTransfer_No";
@@ -302,13 +302,12 @@ class StockTransfer{
         }
     }
 
-    private function getProductDetailByCode($code){
+    private function getProductDetailByCode($code){      
         $query = "select pd.Product_Detail_Id,pd.Product_Id,pd.Barcode,pd.Stock,pd.Retail_Rate,pm.Base_Unit_Id,
                     pm.Tax_Percentage from product_detail pd
-                    LEFT JOIN product_master pm on pd.Product_Id=pm.Product_Id
-                    where pd.Branch_Id=".$this->post['from_branch']." and  pd.Product_Code = '".$this->crud->escape_string($code)."' order by pd.Product_Detail_Id desc limit 1";
+                    LEFT JOIN product_master pm on pd.Product_Id=pm.Product_Id where pd.Branch_Id=".$this->post['from_branch']." and  pd.Product_Code = '".$this->crud->escape_string($code)."' order by pd.Product_Detail_Id desc";
          
-        $data = $this->crud->getData($query);
+        $data = $this->crud->getData($query, 1);
         return isset($data[0])? $data[0] : [];
     }
 

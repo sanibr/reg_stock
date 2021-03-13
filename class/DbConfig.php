@@ -18,7 +18,7 @@ class DbConfig
 		    if($_SESSION['db_type'] == "mysql"){
 		        
 		        $this->connection = new mysqli($_SESSION['db_host'], $_SESSION['db_uname'], $_SESSION['db_pwd'], $_SESSION['dbname']);
-		        
+		        $this->connection->set_charset("utf8");
 		    } else if ($_SESSION['db_type'] == "mssql"){
 		         
 		         $this->connection = mssql_connect($_SESSION['db_host'], $_SESSION['db_uname'], $_SESSION['db_pwd'], $_SESSION['dbname']);
@@ -35,7 +35,7 @@ class DbConfig
 		if (!isset($this->connection)) {
 			
 			$this->connection = new mysqli($this->_host, $this->_username, $this->_password, $this->_database);
-			
+			$this->connection->set_charset("utf8");
 			if (!$this->connection) {
 				die('Cannot connect to database server');
 				exit;

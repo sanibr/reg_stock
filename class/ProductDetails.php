@@ -59,7 +59,7 @@ class ProductDetails{
 
 
         if($this->post["length"] != -1){
-            $limit = ' LIMIT ' . $this->post['start'] . ', ' . $this->post['length'];
+            $limit = $this->crud->sqlLimit($this->post['length'], $this->post['start']);
         }
 
         $order = " order by pd.Product_Detail_Id";

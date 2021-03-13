@@ -79,7 +79,7 @@ if(isset($_GET['getBarcode'])){
     FROM product_detail pd 
     LEFT JOIN product_master pm ON pd.product_id=pm.product_id 
     LEFT JOIN unit u ON pm.Base_Unit_Id=u.Unit_Id
-    WHERE pd.Barcode LIKE '".$_GET['search']."%' and pd.Branch_Id = ".(int)$_GET['branchcode']." order by pd.barcode limit 10");
+    WHERE pd.Barcode LIKE '".$_GET['search']."%' and pd.Branch_Id = ".(int)$_GET['branchcode']." order by pd.barcode", 10);
     foreach($barcode as $k => $data){
       $result['results'][] = array( 'id' => $data['barcode'], 
                                     'text' => $data['barcode'], 
@@ -107,7 +107,7 @@ if(isset($_GET['getProduct'])){
     $product = $crud->getData("SELECT pd.barcode,pd.product_id,pd.Product_Detail_Id,pd.Product_Code,pd.Product_Detail_Name,pm.Base_Unit_Id,u.Unit_Name,pd.Stock,pd.Retail_Rate
     FROM product_detail pd LEFT JOIN product_master pm ON pd.product_id=pm.product_id
     LEFT JOIN unit u ON pm.Base_Unit_Id=u.Unit_Id 
-    WHERE pm.Product_name LIKE '".$_GET['search']."%' and pd.Branch_Id = ".(int)$_GET['branchcode']." order by pm.Product_name limit 10");
+    WHERE pm.Product_name LIKE '".$_GET['search']."%' and pd.Branch_Id = ".(int)$_GET['branchcode']." order by pm.Product_name", 10);
     foreach($product as $k => $data){
       $result['results'][] = array( 'id' => $data['Product_Detail_Id'], 
                                     'text' => $data['Product_Detail_Name'].' ( '.$crud->num_format($data['Stock']).' )',

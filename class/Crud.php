@@ -4,14 +4,22 @@ include_once 'common_settings.php';
 
 class Crud extends DbConfig
 {
+	private $is_mssql = false;
 	public function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();
+		if(isset($_SESSION['db_type']) && $_SESSION['db_type'] == "mssql"){
+			$this->is_mssql == true;
+		}
+				
 	}
 	
-	public function getData($query)
-	{		
+	public function getData($query, $record = 0, $offset = 0)
+	{
 	  $rows = array();
+
+	  $limit = $this->sqlLimit($record, $offset);
+	  $query .= $limit;	 
 	  
 	  if($_SESSION['db_type'] == "mysql" || !isset($_SESSION['db_type'])){
 	      
@@ -19,12 +27,11 @@ class Crud extends DbConfig
 		
 		 if ($result == false) {
 			return false;
-		 } 
+		 }	
 		
-		
-		    while ($row = $result->fetch_assoc()) {
-			    $rows[] = $row;
-		    }
+		while ($row = $result->fetch_assoc()) {			
+			$rows[] = $row;
+		}
 		
 	  } else if ($_SESSION['db_type'] == "mssql"){
 	      
@@ -68,6 +75,27 @@ class Crud extends DbConfig
     		}
 	        
 	    }
+	}
+
+	public function sqlLimit($record = 0, $offset = 0){
+
+		if($record == 0 && $offset == 0){
+			return '';
+		}
+		else if($record > 0 && $offset == 0){
+			$limit  = " limit $record";
+			if ($_SESSION['db_type'] == "mssql"){
+				$limit = " OFFSET 0 ROWS FETCH NEXT $record ROWS ONLY";
+			}
+
+		}else if($record > 0 && $offset > 0){
+			$limit  = " limit $offset, $record";
+			if ($_SESSION['db_type'] == "mssql"){
+				$limit = " OFFSET $offset ROWS FETCH NEXT $record ROWS ONLY";
+			}
+
+		}
+		return $limit;
 	}
 	
 	public function number_of_records($query)
