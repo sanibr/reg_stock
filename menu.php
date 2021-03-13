@@ -92,7 +92,13 @@
                       </ul>
                     </li>
 
-                   
+                    <li <?=basename($_SERVER['PHP_SELF'])=="product_detail.php"?'class="active"':'' ?>  >
+                      <a href="product_detail.php">
+                        <i class="fa fa-list icon">										
+                        </i>
+                        <span>Price List</span>
+                      </a>
+                  </li>
                     
                   
                   </ul>
