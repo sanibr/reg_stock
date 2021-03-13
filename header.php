@@ -51,7 +51,7 @@ include_once("check_login.php");
         </a>
       </div>          
       <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user">        
-        <li class="dropdown">
+        <li class="dropdown" id="open_li">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			<?=$_SESSION['user_name']?><b class="caret"></b>
           </a>
