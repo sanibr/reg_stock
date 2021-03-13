@@ -140,7 +140,7 @@ class ProductDetails{
         $col = $this->crud->escape_string($this->post['col']);
         $value = $this->crud->escape_string($this->post['val']);
         $id = (int)$this->post['id'];
-        $update = "update product_detail set `$col` =  '{$value}' where Product_Detail_Id = {$id}";        
+        $update = "update product_detail set $col =  '{$value}' where Product_Detail_Id = {$id}";        
         $this->crud->execute($update);
         return json_encode(['save' => true]);
         
