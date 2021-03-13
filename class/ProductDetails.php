@@ -71,7 +71,7 @@ class ProductDetails{
         foreach($result as $row){
             $p_id = $row['Product_Detail_Id'];
 
-            $disc_rate = $this->crud->num_format($row['Retail_Rate']-$row['Product_Detail_Discount']);
+            $disc_rate = $this->crud->num_format($row['Retail_Rate']-$row['Product_Detail_Disc_Amount']);
 
             $stock = $this->editColumn($p_id, $row, 'Stock', 'number');
             $p_rate = $this->editColumn($p_id, $row, 'Purchase_Rate', 'number');
