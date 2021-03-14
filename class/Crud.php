@@ -124,14 +124,14 @@ class Crud extends DbConfig
 	
 	public function getSettings(){
 		
-		$settings = $this->getData("select * from common_settings LIMIT 1");
+		$settings = $this->getData("select * from common_settings", 1);
 		
 		return (array) $settings[0];
 	}
 	
 	public function login($user, $pass){
 		
-		$result = $this->getData("select * from users WHERE email = '$user' and password='$pass' LIMIT 1");
+		$result = $this->getData("select * from users WHERE email = '$user' and password='$pass'", 1);
 		
 	
 		

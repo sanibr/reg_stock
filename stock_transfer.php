@@ -75,7 +75,7 @@ if(isset($_GET['getBarcode'])){
 
   if((int)$_GET['branchcode'] > 0){
     $_GET['search'] = isset($_GET['search'])? $crud->escape_string($_GET['search']):'';
-    $barcode = $crud->getData("SELECT pd.barcode,pd.Product_Detail_Id,pd.product_id,pd.Product_Code,pd.Product_Detail_Name,pm.Base_Unit_Id,u.Unit_Name,pd.Stock,pd.Retail_Rate 
+    $barcode = $crud->getData("SELECT pd.barcode,pd.Product_Detail_Id,pd.product_id,pd.Product_Code,pd.Product_Detail_Name,pm.Base_Unit_Id,u.Unit_Name,pd.Stock,pd.Retail_Rate,pm.Tax_Percentage
     FROM product_detail pd 
     LEFT JOIN product_master pm ON pd.product_id=pm.product_id 
     LEFT JOIN unit u ON pm.Base_Unit_Id=u.Unit_Id
@@ -90,6 +90,7 @@ if(isset($_GET['getBarcode'])){
                                     'unit_id' => $data['Base_Unit_Id'],
                                     'stock' => $crud->num_format($data['Stock']),
                                     'retail_rate' => $crud->num_format($data['Retail_Rate']),
+                                    'tax' => $crud->num_format($data['Tax_Percentage']),
                                   );
     }
   }
@@ -104,7 +105,7 @@ if(isset($_GET['getProduct'])){
 
   if((int)$_GET['branchcode'] > 0){
     $_GET['search'] = isset($_GET['search'])? $crud->escape_string($_GET['search']):'';
-    $product = $crud->getData("SELECT pd.barcode,pd.product_id,pd.Product_Detail_Id,pd.Product_Code,pd.Product_Detail_Name,pm.Base_Unit_Id,u.Unit_Name,pd.Stock,pd.Retail_Rate
+    $product = $crud->getData("SELECT pd.barcode,pd.product_id,pd.Product_Detail_Id,pd.Product_Code,pd.Product_Detail_Name,pm.Base_Unit_Id,u.Unit_Name,pd.Stock,pd.Retail_Rate,pm.Tax_Percentage
     FROM product_detail pd LEFT JOIN product_master pm ON pd.product_id=pm.product_id
     LEFT JOIN unit u ON pm.Base_Unit_Id=u.Unit_Id 
     WHERE pm.Product_name LIKE '".$_GET['search']."%' and pd.Branch_Id = ".(int)$_GET['branchcode']." order by pm.Product_name", 10);
@@ -117,6 +118,7 @@ if(isset($_GET['getProduct'])){
                                     'unit_id' => $data['Base_Unit_Id'],
                                     'stock' => $crud->num_format($data['Stock']),
                                     'retail_rate' => $crud->num_format($data['Retail_Rate']),
+                                    'tax' => $crud->num_format($data['Tax_Percentage']),
                                   );
     }
   }
@@ -574,6 +576,7 @@ $(document).ready(function () {
       var newOption = new Option(data.product_name, data.product_detail_id, true, true);
       $('select[name="product_name"]').append(newOption).trigger('change');
       $('select[name="unit"]').val(data.unit_id);
+      $('select[name="tax"]').val(data.tax);
       $('#sales_rate').val(data.retail_rate);
       stock = data.stock;
       product_id = data.product_id;
@@ -599,6 +602,8 @@ $(document).ready(function () {
       var newOption = new Option(data.barcode, data.barcode, true, true);
       $('select[name="barcode"]').append(newOption).trigger('change');
       $('select[name="unit"]').val(data.unit_id);
+      console.log(data.tax);
+      $('select[name="tax"]').val(data.tax);
       $('#sales_rate').val(data.retail_rate);
       stock = data.stock;
       product_id = data.product_id;
