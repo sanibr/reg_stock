@@ -73,7 +73,8 @@ class ProductDetails{
 
             $disc_rate = $this->crud->num_format($row['Retail_Rate']-$row['Product_Detail_Disc_Amount']);
 
-            $stock = $this->editColumn($p_id, $row, 'Stock', 'number');
+            //$stock = $this->editColumn($p_id, $row, 'Stock', 'number');
+			$stock  = $this->crud->num_format($row['Stock']);
             $p_rate = $this->editColumn($p_id, $row, 'Purchase_Rate', 'number');
             $p_cost = $this->editColumn($p_id, $row, 'Purchase_Cost', 'number');
             $w_rate = $this->editColumn($p_id, $row, 'Wholesale_Rate', 'number');
